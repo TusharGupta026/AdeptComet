@@ -404,7 +404,7 @@ function Channel() {
           <div className="channel__headerLeft">
             <h4 className="channel__channelName">
               <strong>
-                {channel?.type === 'private' ? <LockIcon /> : '#'}
+                {channel?.type === 'private' ? '#' : '#'}
                 {channel?.name}
               </strong>
               <StarBorderOutlinedIcon />

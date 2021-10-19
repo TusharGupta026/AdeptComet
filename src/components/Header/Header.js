@@ -23,14 +23,14 @@ function Header() {
   return (
     <div className="header">
       <div className="header__left">
-        <AccessTimeIcon />
+        {/* <AccessTimeIcon /> */}
       </div>
       <div className="header__middle">
         <SearchIcon />
-        <input placeholder="Search tutorial-daltonic" />
+        <input placeholder="Search Message" />
       </div>
       <div className="header__right">
-        <HelpOutlineIcon />
+        
         <Avatar
           className="header__avatar"
           src={user?.photoURL}

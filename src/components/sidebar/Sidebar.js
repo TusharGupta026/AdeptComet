@@ -6,7 +6,8 @@ import CreateIcon from '@material-ui/icons/Create'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import BallotIcon from '@material-ui/icons/Ballot';
 import AddIcon from '@material-ui/icons/Add'
 import { CometChat } from '@cometchat-pro/chat'
 import { Link, useHistory } from 'react-router-dom'
@@ -70,14 +71,14 @@ function Sidebar() {
       <div className="sidebar__header">
         <div className="sidebar__info">
           <h2>
-            <Link to="/">Cometchat (e)</Link>
+            <Link to="/">Adept</Link>
           </h2>
           <h3>
             <FiberManualRecordIcon />
             {user?.displayName.split(' ')[0]}
           </h3>
         </div>
-        <CreateIcon />
+        <MoreVertIcon/>
       </div>
       <div className="sidebar__options">
         <SidebarOption Icon={StarBorderIcon} title="Starred" />
@@ -87,7 +88,7 @@ function Sidebar() {
         {channels.map((channel) =>
           channel.type === 'private' ? (
             <SidebarOption
-              Icon={LockOutlinedIcon}
+              Icon={BallotIcon}
               title={channel.name}
               id={channel.guid}
               key={channel.guid}

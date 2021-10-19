@@ -87,8 +87,7 @@ function Add() {
             required
           >
             <option value={''}>Select privacy</option>
-            <option value={false}>Public</option>
-            <option value={true}>Private</option>
+            <option value={false}>Private</option>
           </select>
         </div>
 

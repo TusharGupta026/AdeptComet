@@ -25,6 +25,7 @@
   flex: 1;
 }
 
+.sidebar__info
 .sidebar__info > h2 {
   font-size: 15px;
   font-weight: 900;
