@@ -25,19 +25,21 @@
 
 .header__middle {
   flex: 0.4;
-  background-color: #421f44;
+  background-color: white;  
   text-align: center;
   display: flex;
   padding: 0 50px;
-  color: gray;
+  color:black;
   border: 1px solid gray;
+  caret-color: black;
   border-radius: 6px;
 }
+
 
 .header__middle > input {
   background-color: transparent;
   border: none;
-  color: white;
+  color: black;
   text-align: center;
   min-width: 35vw;
 }

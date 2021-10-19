@@ -8,6 +8,7 @@ import CallEndIcon from '@material-ui/icons/CallEnd'
 import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined'
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
+import SendIcon from '@material-ui/icons/Send';
 import SearchIcon from '@material-ui/icons/Search'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import CloseIcon from '@material-ui/icons/Close'
@@ -428,7 +429,7 @@ function User() {
               onChange={(e) => setMessage(e.target.value)}
             />
             <button type="submit" onClick={(e) => onSubmit(e)}>
-              SEND
+            <SendIcon/>
             </button>
           </form>
         </div>

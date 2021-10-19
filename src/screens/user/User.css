@@ -80,7 +80,9 @@
   border: 1px solid gray;
   border-radius: 3px;
   padding: 20px;
-  margin: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 50px;
 }
 
 .user__chatInput > form > input:focus {
@@ -88,7 +90,12 @@
 }
 
 .user__chatInput > form > button {
-  display: none !important;
+  display: inline-block !important;
+  background-color: white;
+  margin-top: 57px;
+  border-radius: 25px;
+  height: 45px;
+  width: 45px;
 }
 
 .user__messages::-webkit-scrollbar,

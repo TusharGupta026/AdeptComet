@@ -75,7 +75,7 @@ function Sidebar() {
           </h2>
           <h3>
             <FiberManualRecordIcon />
-            {user?.displayName.split(' ')[0]}
+            Welcome,{user?.displayName.split(' ')[0]}
           </h3>
         </div>
         <MoreVertIcon/>

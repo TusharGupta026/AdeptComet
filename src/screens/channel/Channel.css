@@ -34,6 +34,7 @@
   display: flex;
   align-items: center;
   text-transform: lowercase;
+  
 }
 
 .channel__channelName > .MuiSvgIcon-root {
@@ -80,7 +81,9 @@
   border: 1px solid gray;
   border-radius: 3px;
   padding: 20px;
-  margin: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 50px;
 }
 
 .channel__chatInput > form > input:focus {
@@ -88,7 +91,12 @@
 }
 
 .channel__chatInput > form > button {
-  display: none !important;
+  display: inline-block !important;
+  background-color: white;
+  margin-top: 57px;
+  border-radius: 25px;
+  height: 45px;
+  width: 45px;
 }
 
 .channel__messages::-webkit-scrollbar,

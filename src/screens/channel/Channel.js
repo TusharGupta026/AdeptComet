@@ -7,6 +7,7 @@ import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined'
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled'
 import CallIcon from '@material-ui/icons/Call'
 import CallEndIcon from '@material-ui/icons/CallEnd'
+import SendIcon from '@material-ui/icons/Send';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import SearchIcon from '@material-ui/icons/Search'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
@@ -407,7 +408,7 @@ function Channel() {
                 {channel?.type === 'private' ? '#' : '#'}
                 {channel?.name}
               </strong>
-              <StarBorderOutlinedIcon />
+              <StarBorderOutlinedIcon style={{width: 25,height: 25}} />
             </h4>
           </div>
           <div className="channel__headerRight">
@@ -437,7 +438,7 @@ function Channel() {
               onChange={(e) => setMessage(e.target.value)}
             />
             <button type="submit" onClick={(e) => onSubmit(e)}>
-              SEND
+            <SendIcon/>
             </button>
           </form>
         </div>
