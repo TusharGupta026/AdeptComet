@@ -428,6 +428,7 @@ function User() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
+            
             <button type="submit" onClick={(e) => onSubmit(e)}>
             <SendIcon/>
             </button>

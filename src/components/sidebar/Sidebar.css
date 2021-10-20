@@ -72,7 +72,7 @@
 }
 
 .sidebar__options::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
+  background-color: transparent;
   outline: none;
   border-radius: 9px;
 }
