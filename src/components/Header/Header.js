@@ -1,8 +1,7 @@
 import './Header.css'
 import { Avatar } from '@material-ui/core'
-import AccessTimeIcon from '@material-ui/icons/AccessTime'
 import SearchIcon from '@material-ui/icons/Search'
-import HelpOutlineIcon from '@material-ui/icons/HelpOutline'
+import Box from '@material-ui/core/Box';
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
@@ -23,11 +22,12 @@ function Header() {
   return (
     <div className="header">
       <div className="header__left">
-        {/* <AccessTimeIcon /> */}
+        <Box style={{ backgroundColor:'white',color:'black',borderRadius:6}} display={{ xs: 'block',sm:'block', md: 'none', lg: 'none',xl:'none' }}> 
+        </Box>
       </div>
       <div className="header__middle">
         <SearchIcon />
-        <input className='inputHeader' type="search" placeholder="Search" />
+        <input className='inputHeader' type="search" placeholder="Search..." />
       </div>
       <div className="header__right">
         

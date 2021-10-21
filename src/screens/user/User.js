@@ -1,7 +1,6 @@
 import './User.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect,React } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import StarBorderOutlinedIcon from '@material-ui/icons/StarBorderOutlined'
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
 import CallIcon from '@material-ui/icons/Call'
 import CallEndIcon from '@material-ui/icons/CallEnd'
@@ -16,6 +15,8 @@ import Message from '../../components/message/Message'
 import { CometChat } from '@cometchat-pro/chat'
 import { cometChat } from '../../app.config'
 import { Avatar, Button } from '@material-ui/core'
+import 'draft-js/dist/Draft.css';
+import 'react-quill/dist/quill.snow.css';
 
 function User() {
   const { id } = useParams()
@@ -36,7 +37,7 @@ function User() {
   const togglerDetail = () => {
     setToggle(!toggle)
   }
-
+  
   const findUser = (e) => {
     e.preventDefault()
 
@@ -399,12 +400,11 @@ function User() {
                 <FiberManualRecordIcon />
                 {user?.name}
               </strong>
-              <StarBorderOutlinedIcon />
             </h4>
           </div>
           <div className="user__headerRight">
-            <CallIcon onClick={initiateCall} />
-            <InfoOutlinedIcon onClick={togglerDetail} />
+            <CallIcon style={{width:22,height:22}}  onClick={initiateCall} />
+            <InfoOutlinedIcon style={{width:22,height:22}}  onClick={togglerDetail} />
           </div>
         </div>
 

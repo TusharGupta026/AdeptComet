@@ -2,7 +2,8 @@
   color: white;
   background-color: var(--slack-color);
   border-top: 1px solid #49274b;
-  max-width: 260px;
+  max-width: 320px;
+  height: 100%;
   flex: 0.3;
 }
 
@@ -10,7 +11,8 @@
   display: flex;
   border: 1px solid #49274b;
   padding: 13px;
-  padding-bottom: 10px;
+  padding-top: 25px;
+  padding-bottom: 25px;
 }
 
 .sidebar__header > .MuiSvgIcon-root {
@@ -56,6 +58,7 @@
 .sidebar__options {
   overflow-y: auto;
   height: calc(100vh - 170px);
+  padding-bottom: 20px;
   min-height: calc(100vh - 150px);
 }
 
@@ -79,7 +82,7 @@
 
 .sidebar__logout {
   width: 100%;
-  padding: 10px 0;
+  padding: 10px 10px;
   outline: none;
   border: none;
   background-color: #340e36;
@@ -87,3 +90,8 @@
   cursor: pointer;
 }
 
+.NavBar{
+  width: 10;
+  height: 100%;
+  background:#49274b ;
+}

@@ -1,8 +1,10 @@
 .header {
   display: flex;
-  align-items: center;
+  align-items:center;
+  margin-left: 0%;
   justify-content: space-between;
   padding: 10px 0;
+  min-width: -webkit-fill-available;
   color: white;
   background-color: #340e36;
 }
@@ -20,7 +22,10 @@
 
 .header__left > .MuiSvgIcon-root {
   margin-left: auto;
-  margin-right: 20px;
+  margin-right: 10px;
+  background: white;
+  color: black;
+  border-radius: 5px;
 }
 
 .header__middle {
@@ -28,7 +33,7 @@
   background-color: white;  
   text-align: center;
   display: flex;
-  padding: 0 50px;
+  padding: 0 10px;
   color:black;
   border: 1px solid gray;
   caret-color: black;
@@ -50,10 +55,12 @@
 
 .header__right {
   flex: 0.3;
-  display: flex;
-  align-items: center;
+  display: inline-flex;
+  align-items:flex-end;
+  padding-right: 40px;
+  padding-left: 20px;
   justify-content: space-between;
-  margin: 0 20px;
+  margin: 0 10px;
 }
 
 .header__right .MuiAvatar-root {

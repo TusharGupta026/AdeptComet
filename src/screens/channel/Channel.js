@@ -14,7 +14,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import CloseIcon from '@material-ui/icons/Close'
 import LockIcon from '@material-ui/icons/Lock'
 import Message from '../../components/message/Message'
-import { CometChat } from '@cometchat-pro/chat'
+import { CometChat ,ChatBox} from '@cometchat-pro/chat'
 import { Avatar, Button } from '@material-ui/core'
 
 function Channel() {
@@ -35,6 +35,8 @@ function Channel() {
   const [isIncomingCall, setIsIncomingCall] = useState(false)
   const [isOutgoingCall, setIsOutgoingCall] = useState(false)
   const [isLive, setIsLive] = useState(false)
+
+
 
   const togglerDetail = () => {
     setToggle(!toggle)
@@ -102,6 +104,32 @@ function Channel() {
           setMessages((prevState) => [...prevState, message])
           scrollToEnd()
         },
+        onTypingStarted: typingIndicator => {
+          console.log('Typing started :', typingIndicator);
+          const {currentlyTyping} = this.state;
+          const {sender} = typingIndicator;
+          if (currentlyTyping.length > 0) {
+            if (!currentlyTyping.some(element => element.uid === sender.uid)) {
+              currentlyTyping.push(sender);
+            }
+          } else {
+            currentlyTyping.push(sender);
+          }
+          this.setState({
+            currentlyTyping,
+          });
+        },
+        onTypingEnded: typingIndicator => {
+          console.log('Typing ended :', typingIndicator);
+          const {currentlyTyping} = this.state;
+          const {sender} = typingIndicator;
+          const newCurrentlyTyping = currentlyTyping.filter(
+            element => element.uid !== sender.uid
+          );
+          this.setState({
+            currentlyTyping: newCurrentlyTyping,
+          });
+        }
       })
     )
   }
@@ -361,6 +389,7 @@ function Channel() {
   }, [id])
 
   return (
+ 
     <div className="channel">
       {calling ? (
         <div className="callScreen">
@@ -412,8 +441,8 @@ function Channel() {
             </h4>
           </div>
           <div className="channel__headerRight">
-            <PersonAddOutlinedIcon onClick={togglerAdd} />
-            <InfoOutlinedIcon onClick={togglerDetail} />
+            <PersonAddOutlinedIcon style={{width:22,height:22}} onClick={togglerAdd} />
+            <InfoOutlinedIcon style={{width:22,height:22}}  onClick={togglerDetail} />
           </div>
         </div>
 
@@ -428,6 +457,7 @@ function Channel() {
               key={message?.sentAt}
             />
           ))}
+
         </div>
 
         <div className="channel__chatInput">

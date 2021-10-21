@@ -22,7 +22,7 @@ function App() {
   const addStructure = (Component, props) => {
     return (
       <>
-        <Header />
+      <Header/>
         <main className="app__body">
           <Sidebar />
           <Component {...props} />
