@@ -10,11 +10,11 @@ import CallEndIcon from '@material-ui/icons/CallEnd'
 import SendIcon from '@material-ui/icons/Send';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import SearchIcon from '@material-ui/icons/Search'
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import CloseIcon from '@material-ui/icons/Close'
 import LockIcon from '@material-ui/icons/Lock'
 import Message from '../../components/message/Message'
-import { CometChat ,ChatBox} from '@cometchat-pro/chat'
+import { CometChat} from '@cometchat-pro/chat'
+import DeleteIcon from '@material-ui/icons/Delete';
 import { Avatar, Button } from '@material-ui/core'
 
 function Channel() {
@@ -35,7 +35,6 @@ function Channel() {
   const [isIncomingCall, setIsIncomingCall] = useState(false)
   const [isOutgoingCall, setIsOutgoingCall] = useState(false)
   const [isLive, setIsLive] = useState(false)
-
 
 
   const togglerDetail = () => {
@@ -103,32 +102,6 @@ function Channel() {
         onTextMessageReceived: (message) => {
           setMessages((prevState) => [...prevState, message])
           scrollToEnd()
-        },
-        onTypingStarted: typingIndicator => {
-          console.log('Typing started :', typingIndicator);
-          const {currentlyTyping} = this.state;
-          const {sender} = typingIndicator;
-          if (currentlyTyping.length > 0) {
-            if (!currentlyTyping.some(element => element.uid === sender.uid)) {
-              currentlyTyping.push(sender);
-            }
-          } else {
-            currentlyTyping.push(sender);
-          }
-          this.setState({
-            currentlyTyping,
-          });
-        },
-        onTypingEnded: typingIndicator => {
-          console.log('Typing ended :', typingIndicator);
-          const {currentlyTyping} = this.state;
-          const {sender} = typingIndicator;
-          const newCurrentlyTyping = currentlyTyping.filter(
-            element => element.uid !== sender.uid
-          );
-          this.setState({
-            currentlyTyping: newCurrentlyTyping,
-          });
         }
       })
     )
@@ -202,7 +175,7 @@ function Channel() {
   }
 
   const remMember = (GUID, UID) => {
-    if (channel.scope !== 'owner') return null
+    if (channel.scope !== 'admin') return null
 
     CometChat.kickGroupMember(GUID, UID).then(
       (response) => {
@@ -369,10 +342,12 @@ function Channel() {
       CometChat.deleteGroup(GUID).then(
         (response) => {
           console.log('Channel deleted successfully:', response)
+          alert('Channel Delete Successfully')
           window.location.href = '/'
         },
         (error) => {
           console.log('Channel delete failed with exception:', error)
+          alert('You cannot delete this group you need to ask owner of this group to do that')
         }
       )
     }
@@ -389,7 +364,7 @@ function Channel() {
   }, [id])
 
   return (
- 
+
     <div className="channel">
       {calling ? (
         <div className="callScreen">
@@ -443,6 +418,7 @@ function Channel() {
           <div className="channel__headerRight">
             <PersonAddOutlinedIcon style={{width:22,height:22}} onClick={togglerAdd} />
             <InfoOutlinedIcon style={{width:22,height:22}}  onClick={togglerDetail} />
+          
           </div>
         </div>
 
@@ -456,7 +432,8 @@ function Channel() {
               timestamp={message?.sentAt}
               key={message?.sentAt}
             />
-          ))}
+          )
+          )}
 
         </div>
 
@@ -500,8 +477,8 @@ function Channel() {
               Call
             </span>
             <span>
-              <MoreHorizIcon />
-              More
+              <DeleteIcon  onClick={() => deleteChannel(id)}/>
+              Delete
             </span>
           </div>
           <hr />
@@ -520,14 +497,15 @@ function Channel() {
                 {member?.scope !== 'admin' ? (
                   channel?.scope === 'admin' ? (
                     <PersonAddDisabledIcon
+                      style={{width:17,height:17}}
                       onClick={() => remMember(id, member?.uid)}
-                      title={member?.scope}
+                      title="{member?.scope}"
                     />
                   ) : (
                     ''
                   )
                 ) : (
-                  <LockIcon title={member?.scope} />
+                  <LockIcon style={{width:17,height:17}} title={member?.scope} />
                 )}
               </div>
             ))}

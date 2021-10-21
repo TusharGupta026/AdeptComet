@@ -469,8 +469,10 @@ function User() {
               Call
             </span>
             <span>
-              <MoreHorizIcon />
-              More
+            <PersonAddDisabledIcon
+                    onClick={() => remFriend(id, user?.uid)}
+              />
+              Remove
             </span>
           </div>
           <form onSubmit={(e) => findUser(e)} className="channel__detailsForm">
