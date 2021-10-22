@@ -1,5 +1,5 @@
 import './Channel.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect} from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import StarBorderOutlinedIcon from '@material-ui/icons/StarBorderOutlined'
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
@@ -9,6 +9,7 @@ import CallIcon from '@material-ui/icons/Call'
 import CallEndIcon from '@material-ui/icons/CallEnd'
 import SendIcon from '@material-ui/icons/Send';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
+import Box from '@material-ui/core/Box';
 import SearchIcon from '@material-ui/icons/Search'
 import CloseIcon from '@material-ui/icons/Close'
 import LockIcon from '@material-ui/icons/Lock'
@@ -36,11 +37,17 @@ function Channel() {
   const [isIncomingCall, setIsIncomingCall] = useState(false)
   const [isOutgoingCall, setIsOutgoingCall] = useState(false)
   const [isLive, setIsLive] = useState(false)
+  const [editorKey, setEditorKey] =useState(4);
 
 
   const togglerDetail = () => {
     setToggle(!toggle)
   }
+
+  const clearEditor = () => {
+    const newKey = editorKey * 43;
+    setEditorKey(newKey);
+    }
 
   const togglerAdd = () => {
     setToggleAdd(!toggleAdd)
@@ -135,6 +142,8 @@ function Channel() {
   const onSubmit = (e) => {
     e.preventDefault()
     sendMessage(id, message)
+    clearEditor()
+    
   }
 
   const sendMessage = (guid, message) => {
@@ -362,6 +371,7 @@ function Channel() {
     listenForCall(id)
 
     setCurrentUser(JSON.parse(localStorage.getItem('user')))
+    // eslint-disable-next-line
   }, [id])
 
   return (
@@ -439,31 +449,35 @@ function Channel() {
         </div>
 
         <div className="channel__chatInput">
-          <form>
-              <Editor
-                apiKey="jhvrvljuoi5nu7ksz61lf14f18xbwebsnq4z2del8ztob2qt"
-              
-                init={{
-                  height: 120,
-                  placeholder:`Send Message to Channel`,
-                  menubar: false,
-                  plugins: [
-                    'advlist autolink lists link emoticons image', 
-                    'charmap print preview anchor help',
-                    'searchreplace visualblocks code',
-                    'insertdatetime media table paste wordcount'
-                  ],
-                  toolbar:
-                    'undo redo | bold italic emoticons| \
-                    alignleft aligncenter alignright | \
-                    bullist numlist| help'
-                }}
-                onChange={(e) => setMessage(e.target.getContent())}
-              />
+        <Box component="form">
+          <Box width={{xs:350,sm:400,md:1000,lg:1000,xl:1000}}>
+              <Editor key={editorKey}
+                    apiKey="ayidc0ao36vpduw8cvevrpurygt76f8gmwv4sdcw5keq875y"
+                    
+                  init={{
+                    height: 120,
+                    placeholder:`Send Message to Channel`,
+                    
+                    menubar: false,
+                    resize: false,
+                    plugins: [
+                      'advlist autolink lists link emoticons image', 
+                      'charmap print preview anchor help',
+                      'searchreplace visualblocks code',
+                      'insertdatetime media table paste wordcount'
+                    ],
+                    toolbar:// eslint-disable-next-line
+                      'undo redo | bold italic emoticons| \
+                      alignleft aligncenter alignright | \
+                      bullist numlist| help'
+                  }}
+                  onChange={(e) => setMessage(e.target.getContent())}
+                />
+          </Box>
             <button type="submit" onClick={(e) => onSubmit(e)}>
             <SendIcon/>
             </button>
-          </form>
+        </Box>
         </div>
       </div>
 

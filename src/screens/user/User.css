@@ -76,13 +76,11 @@
 }
 
 .tox-tinymce{
-  width: 90%;
   border: 1px solid gray;
   border-radius: 3px;
-  margin-left: 10px;
+  margin-left: 15px;
   margin-right: 10px;
   margin-top: 10px;
-  margin-bottom: 50px;
 }
 
 .user__chatInput > form > input:focus {
@@ -101,7 +99,7 @@
 
 .user__messages::-webkit-scrollbar,
 .user__detailsBody::-webkit-scrollbar {
-  width: 0.8em;
+  width: 0.4em;
 }
 
 .user__messages::-webkit-scrollbar-thumb,
@@ -116,6 +114,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.tox .tox-statusbar{
+  display: none!important;
 }
 
 .user__detailsActions > span {

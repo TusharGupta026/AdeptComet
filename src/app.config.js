@@ -1,11 +1,12 @@
 const firebaseConfig = {
-    apiKey: "AIzaSyAXWTdNefM2SjR7Bo2I4zharZgF1-cW5_4",
-    authDomain: "slack-clone-936b3.firebaseapp.com",
-    projectId: "slack-clone-936b3",
-    storageBucket: "slack-clone-936b3.appspot.com",
-    messagingSenderId: "470822886370",
-    appId: "1:470822886370:web:7e1a84fd9170b2ae47b7bb",
-    measurementId: "G-LDEZDCPSBP"
+  apiKey: "AIzaSyAXWTdNefM2SjR7Bo2I4zharZgF1-cW5_4",
+  authDomain: "slack-clone-936b3.firebaseapp.com",
+  databaseURL: "https://slack-clone-936b3-default-rtdb.firebaseio.com",
+  projectId: "slack-clone-936b3",
+  storageBucket: "slack-clone-936b3.appspot.com",
+  messagingSenderId: "470822886370",
+  appId: "1:470822886370:web:7edf3b2d9c8d6b7247b7bb",
+  measurementId: "G-MSRPS2SVDG"
 }
 
 const cometChat = {

@@ -77,13 +77,11 @@
 }
 
 .tox-tinymce{
-  width: 90%;
   border: 1px solid gray;
   border-radius: 3px;
-  margin-left: 10px;
+  margin-left: 15px;
   margin-right: 10px;
   margin-top: 10px;
-  margin-bottom: 50px;
 }
 
 .channel__chatInput > form > input:focus {
@@ -102,7 +100,7 @@
 
 .channel__messages::-webkit-scrollbar,
 .channel__detailsBody::-webkit-scrollbar {
-  width: 0.8em;
+  width: 0.4em;
 }
 
 .channel__messages::-webkit-scrollbar-thumb,

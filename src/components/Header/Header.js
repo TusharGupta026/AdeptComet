@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 function Header() {
   const { id } = useParams()
   const history = useHistory()
-  const [toggle, setToggle] = useState(false)
+  const [, setToggle] = useState(false)
   const [users, setUsers] = useState([])
   const [searching, setSearching] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
