@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Avatar } from '@material-ui/core'
 import Moment from 'react-moment'
 import 'moment-timezone'
+import parse from 'html-react-parser';
 
 function Message({ uid, name, avatar, message, timestamp }) {
   const [hovered, setHovered] = useState(false)
@@ -32,7 +33,7 @@ function Message({ uid, name, avatar, message, timestamp }) {
               <Moment unix date={timestamp} format="YYYY-MM-D hh:mm A" />
             </small>
           </div>
-          <p className="message__text">{message}</p>
+          <div className="message__text">{parse(message)}</div>
         </div>
       </div>
     </div>

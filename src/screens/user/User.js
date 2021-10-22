@@ -9,14 +9,12 @@ import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import SendIcon from '@material-ui/icons/Send';
 import SearchIcon from '@material-ui/icons/Search'
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import CloseIcon from '@material-ui/icons/Close'
 import Message from '../../components/message/Message'
 import { CometChat } from '@cometchat-pro/chat'
 import { cometChat } from '../../app.config'
 import { Avatar, Button } from '@material-ui/core'
-import 'draft-js/dist/Draft.css';
-import 'react-quill/dist/quill.snow.css';
+import { Editor } from '@tinymce/tinymce-react';
 
 function User() {
   const { id } = useParams()
@@ -33,14 +31,13 @@ function User() {
   const [isIncomingCall, setIsIncomingCall] = useState(false)
   const [isOutgoingCall, setIsOutgoingCall] = useState(false)
   const [isLive, setIsLive] = useState(false)
-
+  
   const togglerDetail = () => {
     setToggle(!toggle)
   }
   
   const findUser = (e) => {
     e.preventDefault()
-
     searchTerm(keyword)
   }
 
@@ -151,6 +148,7 @@ function User() {
       })
   }
 
+
   const remFriend = (uid, fid) => {
     if (window.confirm('Are you sure?')) {
       const url = `https://api-us.cometchat.io/v2.0/users/${uid}/friends`
@@ -205,6 +203,7 @@ function User() {
   const onSubmit = (e) => {
     e.preventDefault()
     sendMessage(id, message)
+    
   }
 
   const sendMessage = (uid, message) => {
@@ -222,6 +221,7 @@ function User() {
         setMessages((prevState) => [...prevState, message])
         setMessage('')
         scrollToEnd()
+        
       })
       .catch((error) =>
         console.log('Message sending failed with error:', error)
@@ -423,11 +423,26 @@ function User() {
 
         <div className="user__chatInput">
           <form>
-            <input
-              placeholder={`Message ${user?.name.toLowerCase()}`}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
+              <Editor
+                apiKey="jhvrvljuoi5nu7ksz61lf14f18xbwebsnq4z2del8ztob2qt"
+              
+                init={{
+                  height: 120,
+                  placeholder:`Message Your Friend`,
+                  menubar: false,
+                  plugins: [
+                    'advlist autolink lists link emoticons image', 
+                    'charmap print preview anchor help',
+                    'searchreplace visualblocks code',
+                    'insertdatetime media table paste wordcount'
+                  ],
+                  toolbar:
+                    'undo redo | bold italic emoticons| \
+                    alignleft aligncenter alignright | \
+                    bullist numlist| help'
+                }}
+                onChange={(e) => setMessage(e.target.getContent())}
+              />
             
             <button type="submit" onClick={(e) => onSubmit(e)}>
             <SendIcon/>

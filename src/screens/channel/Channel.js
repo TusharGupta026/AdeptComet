@@ -16,6 +16,7 @@ import Message from '../../components/message/Message'
 import { CometChat} from '@cometchat-pro/chat'
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Avatar, Button } from '@material-ui/core'
+import { Editor } from '@tinymce/tinymce-react';
 
 function Channel() {
   const { id } = useParams()
@@ -439,11 +440,26 @@ function Channel() {
 
         <div className="channel__chatInput">
           <form>
-            <input
-              placeholder={`Message ${channel?.name.toLowerCase()}`}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
+              <Editor
+                apiKey="jhvrvljuoi5nu7ksz61lf14f18xbwebsnq4z2del8ztob2qt"
+              
+                init={{
+                  height: 120,
+                  placeholder:`Send Message to Channel`,
+                  menubar: false,
+                  plugins: [
+                    'advlist autolink lists link emoticons image', 
+                    'charmap print preview anchor help',
+                    'searchreplace visualblocks code',
+                    'insertdatetime media table paste wordcount'
+                  ],
+                  toolbar:
+                    'undo redo | bold italic emoticons| \
+                    alignleft aligncenter alignright | \
+                    bullist numlist| help'
+                }}
+                onChange={(e) => setMessage(e.target.getContent())}
+              />
             <button type="submit" onClick={(e) => onSubmit(e)}>
             <SendIcon/>
             </button>
