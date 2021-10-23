@@ -224,7 +224,7 @@ function Sidebar(props) {
   return (
     <div className={classes.root}>
     <AppBar position="fixed" className={classes.appBar}>
-      <Toolbar style={{paddingRight:0,minHeight:0,paddingLeft:0,backgroundColor:'#49274b'}}>
+      <Toolbar  style={{paddingRight:0,minHeight:0,paddingLeft:0,backgroundColor:'#49274b'}}>
         <IconButton
           color="inherit"
           aria-label="open drawer"

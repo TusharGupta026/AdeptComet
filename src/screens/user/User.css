@@ -21,7 +21,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
   border-bottom: 1px solid lightgray;
 }
 
@@ -110,9 +109,9 @@
 }
 
 .user__detailsActions {
-  padding: 30px;
+  padding: 10px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 
@@ -150,7 +149,7 @@
 }
 
 .user__detailsMembers {
-  margin: 30px;
+  margin: 10px;
 }
 
 .available__member {
@@ -201,7 +200,7 @@
 }
 
 .user__detailsForm {
-  padding: 30px;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -229,7 +228,7 @@
 
 .user__detailsIdentity {
   text-align: center;
-  padding: 20px;
+  padding: 10px;
 }
 
 .user__detailsIdentity > img {

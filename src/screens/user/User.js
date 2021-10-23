@@ -1,5 +1,5 @@
 import './User.css'
-import { useState, useEffect,React } from 'react'
+import { useState, useEffect} from 'react'
 import { Link, useParams } from 'react-router-dom'
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
 import CallIcon from '@material-ui/icons/Call'
@@ -7,6 +7,10 @@ import CallEndIcon from '@material-ui/icons/CallEnd'
 import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined'
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
+import clsx from 'clsx';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import SendIcon from '@material-ui/icons/Send';
 import SearchIcon from '@material-ui/icons/Search'
@@ -34,6 +38,79 @@ function User() {
   const [isOutgoingCall, setIsOutgoingCall] = useState(false)
   const [isLive, setIsLive] = useState(false)
   const [editorKey, setEditorKey] =useState(4);
+  const theme = useTheme();
+  const [open, setOpen] =useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+
+  const drawerWidth = 295;
+
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      display: 'flex',
+    },
+    appBar: {
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+    },
+    appBarShift: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginRight: drawerWidth,
+    },
+    title: {
+      flexGrow: 1,
+    },
+    hide: {
+      display: 'none',
+    },
+    drawer: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+    drawerPaper: {
+      width: drawerWidth,
+    },
+    drawerHeader: {
+      display: 'flex',
+      alignItems: 'center',
+      padding: theme.spacing(0, 1),
+      // necessary for content to be below app bar
+      ...theme.mixins.toolbar,
+      justifyContent: 'flex-start',
+    },
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(3),
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      marginRight: -drawerWidth,
+    },
+    contentShift: {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginRight: 0,
+    },
+  }));
+
+  const classes = useStyles();
+  
   
   const togglerDetail = () => {
     setToggle(!toggle)
@@ -48,7 +125,6 @@ function User() {
     const newKey = editorKey * 43;
     setEditorKey(newKey);
     }
-
 
   const searchTerm = (keyword) => {
     setSearching(true)
@@ -364,7 +440,7 @@ function User() {
   }, [id])
 
   return (
-    <div className="user">
+    <Box component="div"  className="user">
       {calling ? (
         <div className="callScreen">
           <div className="callScreen__container">
@@ -414,10 +490,116 @@ function User() {
             </h4>
           </div>
           <div className="user__headerRight">
-            <CallIcon style={{width:22,height:22}}  onClick={initiateCall} />
-            <InfoOutlinedIcon style={{width:22,height:22}}  onClick={togglerDetail} />
-          </div>
+            <div style={{marginTop:10}}>
+              <IconButton color="inherit"
+                style={{width:22,height:22,paddingBottom:22}} >
+              <CallIcon onClick={initiateCall} />
+              </IconButton>
+            <IconButton
+                color="inherit"
+                style={{width:22,height:22,marginLeft:10,paddingBottom:22}} 
+                aria-label="open drawer"
+                edge="end"
+                onClick={handleDrawerOpen}
+                className={clsx(open && classes.hide)}
+              >
+                <InfoOutlinedIcon/>
+              </IconButton>
+            </div>
+              <div className={classes.root}>
+                <main style={{padding:0}}
+                  className={clsx(classes.content, {
+                    [classes.contentShift]: open,
+                  })}
+                >
+                  <div className={classes.drawerHeader} />
+
+                </main>
+                <Drawer
+                  className={classes.drawer}
+                  variant="persistent"
+                  anchor="right"
+                  open={open}
+                  classes={{
+                    paper: classes.drawerPaper,
+                  }}
+                >
+                  <div className={classes.drawerHeader}>
+                    <div>
+                        <div className="user__header">
+                          <div className="user__headerLeft">
+                            <h4 className="user__userName">
+                              <strong style={{textTransform:'none',marginTop:15,marginBottom:15}}>Details</strong>
+                            </h4>
+                          </div>
+                          <div className="user__headerRight" style={{marginRight:5}}>
+                            <CloseIcon onClick={handleDrawerClose}/>
+                          </div>
+                        </div>
+                        <div className="user__detailsBody">
+                          <div className="user__detailsIdentity">
+                            <img src={user?.avatar} alt={user?.name} />
+                            <h4 className={user?.status === 'online' ? 'isOnline' : ''}>
+                              {user?.name}
+                              <FiberManualRecordIcon />
+                            </h4>
+                          </div>
+                          <div className="user__detailsActions">
+                            <span>
+                              <PersonAddOutlinedIcon onClick={() => addFriend(user?.uid)} />
+                              Add
+                            </span>
+                            <span>
+                              <CallIcon  onClick={initiateCall} />
+                              Call
+                            </span>
+                            <span>
+                            <PersonAddDisabledIcon
+                                    onClick={() => remFriend(id, user?.uid)}
+                              />
+                              Remove
+                            </span>
+                          </div>
+                          <form onSubmit={(e) => findUser(e)} className="channel__detailsForm">
+                            <input
+                              placeholder="Search for a user"
+                              onChange={(e) => setKeyword(e.target.value)}
+                              required
+                            />
+                            <Button style={{marginLeft:5}} onClick={(e) => findUser(e)}>
+                              {!searching ? 'Find' : <div id="loading"></div>}
+                            </Button>
+                          </form>
+                          <hr />
+                          <div className="channel__detailsMembers">
+                            <h4>Friends</h4>
+                            {users.map((user) => (
+                              <div
+                                key={user?.uid}
+                                className={`available__member ${
+                                  user?.status === 'online' ? 'isOnline' : ''
+                                }`}
+                              >
+                                <Avatar src={user?.avatar} alt={user?.name} />
+                                <Link to={`/users/${user?.uid}`}>{user?.name}</Link>
+                                <FiberManualRecordIcon />
+                                {currentUser?.uid.toLowerCase() === id.toLowerCase() ? (
+                                  <PersonAddDisabledIcon
+                                    onClick={() => remFriend(id, user?.uid)}
+                                  />
+                                ) : (
+                                  ''
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                </Drawer>
+              </div>
         </div>
+      </div>
 
         <div id="messages-container" className="user__messages">
           {messages.map((message) => (
@@ -463,83 +645,8 @@ function User() {
         </Box>
         </div>
       </div>
-
-      <div className={`user__details ${!toggle ? 'hide__details' : ''}`}>
-        <div className="user__header">
-          <div className="user__headerLeft">
-            <h4 className="user__userName">
-              <strong>Details</strong>
-            </h4>
-          </div>
-          <div className="user__headerRight">
-            <CloseIcon onClick={togglerDetail} />
-          </div>
-        </div>
-        <div className="user__detailsBody">
-          <div className="user__detailsIdentity">
-            <img src={user?.avatar} alt={user?.name} />
-            <h4 className={user?.status === 'online' ? 'isOnline' : ''}>
-              {user?.name}
-              <FiberManualRecordIcon />
-            </h4>
-          </div>
-          <div className="user__detailsActions">
-            <span>
-              <PersonAddOutlinedIcon onClick={() => addFriend(user?.uid)} />
-              Add
-            </span>
-            <span>
-              <SearchIcon />
-              Find
-            </span>
-            <span>
-              <CallIcon onClick={initiateCall} />
-              Call
-            </span>
-            <span>
-            <PersonAddDisabledIcon
-                    onClick={() => remFriend(id, user?.uid)}
-              />
-              Remove
-            </span>
-          </div>
-          <form onSubmit={(e) => findUser(e)} className="channel__detailsForm">
-            <input
-              placeholder="Search for a user"
-              onChange={(e) => setKeyword(e.target.value)}
-              required
-            />
-            <Button onClick={(e) => findUser(e)}>
-              {!searching ? 'Find' : <div id="loading"></div>}
-            </Button>
-          </form>
-          <hr />
-          <div className="channel__detailsMembers">
-            <h4>Friends</h4>
-            {users.map((user) => (
-              <div
-                key={user?.uid}
-                className={`available__member ${
-                  user?.status === 'online' ? 'isOnline' : ''
-                }`}
-              >
-                <Avatar src={user?.avatar} alt={user?.name} />
-                <Link to={`/users/${user?.uid}`}>{user?.name}</Link>
-                <FiberManualRecordIcon />
-                {currentUser?.uid.toLowerCase() === id.toLowerCase() ? (
-                  <PersonAddDisabledIcon
-                    onClick={() => remFriend(id, user?.uid)}
-                  />
-                ) : (
-                  ''
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
       {isLive ? <div id="callScreen"></div> : ''}
-    </div>
+    </Box>
   )
 }
 
