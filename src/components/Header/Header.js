@@ -28,7 +28,7 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
-    width: 400,
+    width: 380,
     backgroundColor: theme.palette.background.paper,
     borderRadius:15,
     boxShadow: theme.shadows[5],
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Header() {
-  const { id } = useParams()
+  const { id } = useParams()// eslint-disable-next-line
   const history = useHistory()
   const [, setToggle] = useState(false)
   const [users, setUsers] = useState([])
@@ -45,19 +45,29 @@ function Header() {
   const [currentUser, setCurrentUser] = useState(null)
   const [keyword, setKeyword] = useState(null)
 
-  const moveToAcc = () => {
-    const user = JSON.parse(localStorage.getItem('user'))
-    history.push(`/users/${user.uid}`)
-  }
 
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle());
   const [open, setOpen] = useState(false);
+  const [openAvtar, setOpenAvtar] = useState(false);
+// eslint-disable-next-line
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleOpenAvtar = () => {
+    setOpenAvtar(true);
+  };
+
+
+  const handleCloseAvtar = () => {
+    setOpenAvtar(false);
   };
 
   const findUser = (e) => {
@@ -108,6 +118,29 @@ function Header() {
       })
       .catch((err) => console.error('error:' + err))
   }
+
+  const body = (
+    <div style={modalStyle} className={classes.paper}>
+        <Button  onClick={handleCloseAvtar} style={{display:'flex',float:'right',marginTop:20}}>
+           <CloseIcon />
+        </Button>
+      <h1 style={{paddingLeft:40,marginTop:20}} id="simple-modal-title">Profile</h1>
+      <div id="simple-modal-description">
+      <Avatar
+          src={currentUser?.photoURL}
+          alt={currentUser?.displayName}
+          style={{borderRadius:15,width:250,height:250,marginTop:20,marginLeft:60}}
+        />
+        <h2 style={{marginTop:20,marginLeft:110,marginBottom:20}}>{currentUser?.displayName}</h2>
+        <hr/>
+        <h4 style={{paddingLeft:40,paddingTop:20}}>Display Name</h4>
+        <div style={{paddingLeft:40,paddingTop:10}}>{currentUser?.displayName}</div>
+        <h4 style={{paddingLeft:40,paddingTop:15}}>Email</h4>
+        <div  style={{paddingLeft:40,paddingTop:10,paddingBottom:20}} >{currentUser?.email}</div>
+      </div>
+    </div>
+  );
+
 
   useEffect(() => {
 
@@ -176,9 +209,18 @@ function Header() {
           className="header__avatar"
           src={currentUser?.photoURL}
           alt={currentUser?.displayName}
-          onClick={moveToAcc}
+          onClick={handleOpenAvtar}
           style={{float:'right'}}
         />
+
+          <Modal
+            open={openAvtar}
+            onClose={handleCloseAvtar}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
+            {body}
+          </Modal>
       </div>
     </div>
   )
