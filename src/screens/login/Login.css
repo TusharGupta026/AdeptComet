@@ -54,3 +54,219 @@
 @-webkit-keyframes spin {
   to { -webkit-transform: rotate(360deg); }
 }
+
+#navbar {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0px 80px;
+  height: 80px;
+  width: 89%;
+  position: fixed;
+  border-radius: 999px;
+  top: 10px;
+  /* background-color: inherit; */
+}
+
+.navbar__left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 15px;
+}
+
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  width: 43px;
+  width: 136px;
+}
+
+.navbar__right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 20px;
+}
+
+.NavbarContainerWhite {
+  position: fixed;
+  background-color: white;
+  border-radius: 999px;
+  width: 89%;
+  top: 10px;
+  box-shadow: 0px 0px 6px 4px rgba(0, 0, 0, 0.10);
+}
+
+.button1 {
+  color: white;
+  border: none;
+  background: none;
+  font-family: Helvetica;
+  font-size: 15px;
+  font-weight: 560;
+  padding: 0 15px;
+}
+
+.button1:hover {
+  text-decoration: underline;
+}
+
+
+.body__splash {
+  background-image: url("https://slackx.s3.amazonaws.com/slack_background.png");
+  background-color: #4a154b;
+  background-position-x: center;
+  background-position-y: top;
+  background-repeat: repeat-y;
+  background-size: 100%;
+  min-height: 100vh;
+  transition: background-color 0.5s;
+  /* transition: background-image 0.5s; */
+}
+
+.splash_page_container {
+  margin-top: 300px;
+  display: grid;
+  grid-template-columns: 0.75fr 1fr;
+  grid-column-gap: 60px;
+  grid-template-areas: 'splash-left splash-right';
+  min-height: 0;
+  min-width: 0;
+}
+
+.opening_title {
+  color: white;
+  font-family: Slack-Larsseit,“Helvetica Neue”,Helvetica,“Segoe UI”,Tahoma,Arial,sans-serif;
+  margin: auto;
+  width: 80%;
+  text-align: center;
+  padding: 64px;
+  font-weight: 600;
+  padding-top: 130px;
+  padding-bottom: 40px;
+  font-size: 3.8rem;
+  line-height: 70px;
+}
+
+.splash_page_top_img {
+  width: 60%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.orange {
+  color: #ecb22e;
+}
+
+.splash_page_container_left {
+  grid-area: splash-left;
+  overflow: hidden;
+  font-weight: 600;
+}
+
+.splash_page_container_right {
+  grid-area: splash-right;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.splash_page_img_1 {
+  margin-top: 320px;
+  width: 105%;
+  border-radius: 5px;
+}
+
+.splash_page_img_2 {
+  margin-top: 600px;
+  font-size: 100px;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+.splash_page_img_2 div {
+  padding: 15px 0;
+  display: flex;
+  align-items: center;
+}
+
+.splash_page_img_2 * {
+  padding: 25px;
+}
+
+#socket__logo {
+  height: 90px;
+}
+
+.splash_page_img_3 {
+  margin-top: 607px;
+  width: 90%;
+  border-radius: 5px;
+  /* margin-bottom: 740px; */
+}
+
+.splash_page_img_4 {
+  margin-top: 607px;
+  width: 80%;
+  border-radius: 5px;
+  margin-bottom: 45px;
+}
+
+/* Splash Titles */
+.fixed_position {
+  position: fixed;
+  top: 300px;
+  max-width: 580px;
+  margin-left: 80px;
+  line-height: 60px;
+  /* transition: visibility 0.2s; */
+}
+
+.splash_title_3 {
+  position: relative;
+}
+
+.splash__team__button {
+  padding: 12px 25px;
+  border-radius: 999px;
+  background-color: #0b2440;
+  color: white;
+  font-size: 15px;
+  font-weight: 560;
+  position: absolute;
+  bottom: 7px;
+  right: 40px;
+  margin-left: 30px;
+  border: 1px solid white;
+  display: flex;
+}
+
+.splash__team__button:hover {
+  padding: 11px 24px;
+  border: 2px solid white;
+}
+
+#right__icon {
+  padding-left: 10px;
+  padding-top: 1px;
+}
+
+.splash__button__demo {
+  border: #4a154b;
+  padding: 12px;
+  border-radius: 5px;
+  color: #4a154b;
+  background-color: white;
+  font-size: 15px;
+  font-weight: 560;
+}
+
+.splash__button__demo:hover {
+  border: 2px solid #4a154b;
+  padding: 10px;
+}

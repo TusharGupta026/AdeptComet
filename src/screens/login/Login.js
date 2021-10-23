@@ -1,8 +1,13 @@
+import React from 'react';
 import './Login.css'
 import { Button } from '@material-ui/core'
+import { NavLink } from 'react-router-dom';
 import { auth, provider } from '../../firebase'
 import { CometChat } from '@cometchat-pro/chat'
 import { cometChat } from '../../app.config'
+import IntroImg from '../../imgs/whatisslackx.png';
+import SlackLogoWhite from "../../imgs/slack_logo_white.png";
+import MaterialIcon from 'react-google-material-icons'
 import { useState } from 'react'
 
 function Login() {
@@ -60,17 +65,30 @@ function Login() {
   }
 
   return (
-    <div className="login">
-      <div className="login__container">
-        <img src={'/logo.png'} alt="Slack Logo" />
-
-        <h4>Sign in to Adept</h4>
-        
-        <Button onClick={signIn}>
-          {!loading ? 'Sign In With Google' : <div id="loading"></div>}
-        </Button>
-      </div>
+    <div className="body__splash">
+        <div  className="MainBKG">
+            <nav id="navbar">
+              <div className="navbar__left">
+                <NavLink to="/login" activeClassName="active">
+                  <img
+                    className="navbar__logo"
+                    src={SlackLogoWhite}
+                    alt="SlackX Logo" />
+                </NavLink>
+              </div>
+              <div className="navbar__right">
+              <Button style={{ cursor: 'pointer' ,color:'black'}} onClick={signIn}>
+                {!loading ? <div style={{backgroundColor:'white',padding:10,textTransform:'none',borderRadius:20,fontSize:17}} color>Sign in With <span style={{color:'#4285F4'}}>G</span><span style={{color:'#EA4335'}}>o</span><span style={{color:'#FBBC05'}}>o</span><span style={{color:'#4285F4'}}>g</span><span style={{color:'#34A853'}}>l</span><span style={{color:'#EA4335'}}>e</span></div> : <div id="loading"></div>}
+              </Button>
+              </div>
+            </nav>
+            <div className="opening_title">Adept makes it <span className="orange">downright pleasant</span><br /> to work together</div>
+              <img  className="splash_page_top_img" src={IntroImg} alt=""/>
+            <div>
+         </div>
+         </div>
     </div>
+
   )
 }
 
