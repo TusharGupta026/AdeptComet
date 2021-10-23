@@ -1,7 +1,6 @@
 import './Channel.css'
 import { useState, useEffect} from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
-import StarBorderOutlinedIcon from '@material-ui/icons/StarBorderOutlined'
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
 import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined'
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled'
@@ -10,7 +9,10 @@ import CallEndIcon from '@material-ui/icons/CallEnd'
 import SendIcon from '@material-ui/icons/Send';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import Box from '@material-ui/core/Box';
-import SearchIcon from '@material-ui/icons/Search'
+import clsx from 'clsx';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close'
 import LockIcon from '@material-ui/icons/Lock'
 import Message from '../../components/message/Message'
@@ -30,25 +32,91 @@ function Channel() {
   const [currentUser, setCurrentUser] = useState(null)
   const [message, setMessage] = useState('')
   const [searching, setSearching] = useState(false)
-  const [toggle, setToggle] = useState(false)
   const [toggleAdd, setToggleAdd] = useState(false)
   const [calling, setCalling] = useState(false)
   const [sessionID, setSessionID] = useState('')
   const [isIncomingCall, setIsIncomingCall] = useState(false)
   const [isOutgoingCall, setIsOutgoingCall] = useState(false)
   const [isLive, setIsLive] = useState(false)
-  const [editorKey, setEditorKey] =useState(4);
+  const [editorKey, setEditorKey] =useState(4);// eslint-disable-next-line 
+  const theme = useTheme();
+  const [open, setOpen] =useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
 
-  const togglerDetail = () => {
-    setToggle(!toggle)
-  }
+  const drawerWidth = 285;
+
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      display: 'flex',
+    },
+    appBar: {
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+    },
+    appBarShift: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginRight: drawerWidth,
+    },
+    title: {
+      flexGrow: 1,
+    },
+    hide: {
+      display: 'none',
+    },
+    drawer: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+    drawerPaper: {
+      width: drawerWidth,
+    },
+    drawerHeader: {
+      display: 'flex',
+      alignItems: 'center',
+      padding: theme.spacing(0, 1),
+      // necessary for content to be below app bar
+      ...theme.mixins.toolbar,
+      justifyContent: 'flex-start',
+    },
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(3),
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      marginRight: -drawerWidth,
+    },
+    contentShift: {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginRight: 0,
+    },
+  }));
+
+  const classes = useStyles();
 
   const clearEditor = () => {
     const newKey = editorKey * 43;
     setEditorKey(newKey);
     }
-
+// eslint-disable-next-line 
   const togglerAdd = () => {
     setToggleAdd(!toggleAdd)
   }
@@ -423,13 +491,158 @@ function Channel() {
                 {channel?.type === 'private' ? '#' : '#'}
                 {channel?.name}
               </strong>
-              <StarBorderOutlinedIcon style={{width: 25,height: 25}} />
             </h4>
           </div>
-          <div className="channel__headerRight">
-            <PersonAddOutlinedIcon style={{width:22,height:22}} onClick={togglerAdd} />
-            <InfoOutlinedIcon style={{width:22,height:22}}  onClick={togglerDetail} />
-          
+          <div className="channel__headerRight" >
+            <div style={{marginTop:10}}>
+            <IconButton color="inherit"
+                style={{width:22,height:22,paddingBottom:22}} >
+                  <CallIcon style={{width:22,height:22}} onClick={initiateCall} />
+            </IconButton>
+            <IconButton
+                color="inherit"
+                style={{width:22,height:22,marginLeft:10,paddingBottom:22}} 
+                aria-label="open drawer"
+                edge="end"
+                onClick={handleDrawerOpen}
+                className={clsx(open && classes.hide)}
+              >
+                <InfoOutlinedIcon/>
+              </IconButton>
+            </div>
+              <div className={classes.root}>
+                <main style={{padding:0}}
+                  className={clsx(classes.content, {
+                    [classes.contentShift]: open,
+                  })}
+                >
+                  <div className={classes.drawerHeader} />
+                </main>
+                <Drawer
+                  className={classes.drawer}
+                  variant="persistent"
+                  anchor="right"
+                  open={open}
+                  classes={{
+                    paper: classes.drawerPaper,
+                  }}
+                >
+                  <div className={classes.drawerHeader}>
+                    <div>
+                    <div className="channel__header">
+                    <div className="channel__headerLeft">
+                      <h4 className="channel__channelName">
+                          <strong style={{textTransform:'none',marginTop:15,marginBottom:15}}>Channel Details</strong>
+                      </h4>
+                    </div>
+                        <div className="channela__headerRight" style={{marginRight:5}}>
+                          <CloseIcon onClick={handleDrawerClose}/>
+                        </div>
+                    </div>
+                        <div className="channel__detailsBody">
+                            <div className="channel__detailsActions">
+                              <span style={{paddingLeft:40,paddingRight:50}}>
+                                <CallIcon onClick={initiateCall} />
+                                Call
+                              </span>
+                              <span>
+                                <DeleteIcon  onClick={() => deleteChannel(id)}/>
+                                Delete
+                              </span>
+                            </div>
+                            <hr />
+                            <div className="channel__detailsMembers">
+                              <h4>Members ({members.length})</h4>
+                              {members.map((member) => (
+                                <div
+                                  key={member?.uid}
+                                  className={`available__member ${
+                                    member?.status === 'online' ? 'isOnline' : ''
+                                  }`}
+                                >
+                                  <Avatar src={member?.avatar} alt={member?.name} />
+                                  <Link to={`/users/${member?.uid}`}>{member?.name}</Link>
+                                  <FiberManualRecordIcon />
+                                  {member?.scope !== 'admin' ? (
+                                    channel?.scope === 'admin' ? (
+                                      <PersonAddDisabledIcon
+                                        style={{width:17,height:17}}
+                                        onClick={() => remMember(id, member?.uid)}
+                                        title="{member?.scope}"
+                                      />
+                                    ) : (
+                                      ''
+                                    )
+                                  ) : (
+                                    <LockIcon style={{width:17,height:17}} title={member?.scope} />
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                            {channel?.scope === 'owner' ? (
+                              <>
+                                <hr />
+                                <div className="channel__detailsMembers">
+                                  <Button className="deleteBtn" onClick={() => deleteChannel(id)}>
+                                    Delete Channel
+                                  </Button>
+                                </div>
+                              </>
+                            ) : (
+                              ''
+                            )}
+                            <hr/>
+                            <div className="channel__header">
+                              <div className="channel__headerLeft">
+                                <h4 style={{padding:10}} className="channel__channelName">
+                                  <strong style={{textTransform:'none'}}>Add Member</strong>
+                                </h4>
+                              </div>
+                           </div>
+                           <div className="channel__detailsBody">
+                            <form onSubmit={(e) => findUser(e)} className="channel__detailsForm">
+                              <input
+                                placeholder="Search for a user"
+                                onChange={(e) => setKeyword(e.target.value)}
+                                required
+                              />
+                              <Button style={{marginLeft:10}} onClick={(e) => findUser(e)}>
+                                {!searching ? 'Find' : <div id="loading"></div>}
+                              </Button>
+                            </form>
+                            <hr />
+                              <div className="channel__detailsMembers">
+                                <h4>Search Result ({users.length})</h4>
+                                {users.map((user) => (
+                                  <div
+                                    key={user?.uid}
+                                    className={`available__member ${
+                                      user?.status === 'online' ? 'isOnline' : ''
+                                    }`}
+                                  >
+                                    <Avatar src={user?.avatar} alt={user?.name} />
+                                    <Link to={`/users/${user?.uid}`}>{user?.name}</Link>
+                                    <FiberManualRecordIcon />
+                                    {currentUser.uid !== user?.uid ? (
+                                      channel?.scope === 'admin' ? (
+                                        <PersonAddOutlinedIcon
+                                          onClick={() => addMember(id, user?.uid)}
+                                        />
+                                      ) : (
+                                        ''
+                                      )
+                                    ) : (
+                                      ''
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </Drawer>
+              </div>
           </div>
         </div>
 
@@ -447,165 +660,40 @@ function Channel() {
           )}
 
         </div>
-
-        <div className="channel__chatInput">
-        <Box component="form">
-          <Box width={{xs:350,sm:400,md:1000,lg:1000,xl:1000}}>
-              <Editor key={editorKey}
-                    apiKey="ayidc0ao36vpduw8cvevrpurygt76f8gmwv4sdcw5keq875y"
-                    
-                  init={{
-                    height: 120,
-                    placeholder:`Send Message to Channel`,
-                    
-                    menubar: false,
-                    resize: false,
-                    plugins: [
-                      'advlist autolink lists link emoticons image', 
-                      'charmap print preview anchor help',
-                      'searchreplace visualblocks code',
-                      'insertdatetime media table paste wordcount'
-                    ],
-                    toolbar:// eslint-disable-next-line
-                      'undo redo | bold italic emoticons| \
-                      alignleft aligncenter alignright | \
-                      bullist numlist| help'
-                  }}
-                  onChange={(e) => setMessage(e.target.getContent())}
-                />
+          <div className="channel__chatInput">
+            <Box component="form">
+            <Box width={{xs:350,sm:400,md:1000,lg:1000,xl:1000}}>
+                <Editor key={editorKey}
+                      apiKey="ayidc0ao36vpduw8cvevrpurygt76f8gmwv4sdcw5keq875y"
+                      
+                    init={{
+                      height: 120,
+                      placeholder:`Send Message to Channel`,
+                      
+                      menubar: false,
+                      resize: false,
+                      plugins: [
+                        'advlist autolink lists link emoticons image', 
+                        'charmap print preview anchor help',
+                        'searchreplace visualblocks code',
+                        'insertdatetime media table paste wordcount'
+                      ],
+                      toolbar:// eslint-disable-next-line
+                        'undo redo | bold italic emoticons| \
+                        alignleft aligncenter alignright | \
+                        bullist numlist| help'
+                    }}
+                    onChange={(e) => setMessage(e.target.getContent())}
+                  />
+            </Box>
+              <button type="submit" onClick={(e) => onSubmit(e)}>
+              <SendIcon/>
+              </button>
           </Box>
-            <button type="submit" onClick={(e) => onSubmit(e)}>
-            <SendIcon/>
-            </button>
-        </Box>
-        </div>
+          </div>
       </div>
-
-      <div className={`channel__details ${!toggle ? 'hide__details' : ''}`}>
-        <div className="channel__header">
-          <div className="channel__headerLeft">
-            <h4 className="channel__channelName">
-              <strong>Details</strong>
-            </h4>
-          </div>
-          <div className="channel__headerRight">
-            <CloseIcon onClick={togglerDetail} />
-          </div>
-        </div>
-        <div className="channel__detailsBody">
-          <div className="channel__detailsActions">
-            <span>
-              <PersonAddOutlinedIcon onClick={togglerAdd} />
-              Add
-            </span>
-            <span>
-              <SearchIcon onClick={togglerAdd} />
-              Find
-            </span>
-            <span>
-              <CallIcon onClick={initiateCall} />
-              Call
-            </span>
-            <span>
-              <DeleteIcon  onClick={() => deleteChannel(id)}/>
-              Delete
-            </span>
-          </div>
-          <hr />
-          <div className="channel__detailsMembers">
-            <h4>Members({members.length})</h4>
-            {members.map((member) => (
-              <div
-                key={member?.uid}
-                className={`available__member ${
-                  member?.status === 'online' ? 'isOnline' : ''
-                }`}
-              >
-                <Avatar src={member?.avatar} alt={member?.name} />
-                <Link to={`/users/${member?.uid}`}>{member?.name}</Link>
-                <FiberManualRecordIcon />
-                {member?.scope !== 'admin' ? (
-                  channel?.scope === 'admin' ? (
-                    <PersonAddDisabledIcon
-                      style={{width:17,height:17}}
-                      onClick={() => remMember(id, member?.uid)}
-                      title="{member?.scope}"
-                    />
-                  ) : (
-                    ''
-                  )
-                ) : (
-                  <LockIcon style={{width:17,height:17}} title={member?.scope} />
-                )}
-              </div>
-            ))}
-          </div>
-          {channel?.scope === 'owner' ? (
-            <>
-              <hr />
-              <div className="channel__detailsMembers">
-                <Button className="deleteBtn" onClick={() => deleteChannel(id)}>
-                  Delete Channel
-                </Button>
-              </div>
-            </>
-          ) : (
-            ''
-          )}
-        </div>
-      </div>
-
-      <div className={`channel__details ${!toggleAdd ? 'hide__details' : ''}`}>
-        <div className="channel__header">
-          <div className="channel__headerLeft">
-            <h4 className="channel__channelName">
-              <strong>Add Member</strong>
-            </h4>
-          </div>
-          <div className="channel__headerRight">
-            <CloseIcon onClick={togglerAdd} />
-          </div>
-        </div>
-        <div className="channel__detailsBody">
-          <form onSubmit={(e) => findUser(e)} className="channel__detailsForm">
-            <input
-              placeholder="Search for a user"
-              onChange={(e) => setKeyword(e.target.value)}
-              required
-            />
-            <Button onClick={(e) => findUser(e)}>
-              {!searching ? 'Find' : <div id="loading"></div>}
-            </Button>
-          </form>
-          <hr />
-          <div className="channel__detailsMembers">
-            <h4>Search Result({users.length})</h4>
-            {users.map((user) => (
-              <div
-                key={user?.uid}
-                className={`available__member ${
-                  user?.status === 'online' ? 'isOnline' : ''
-                }`}
-              >
-                <Avatar src={user?.avatar} alt={user?.name} />
-                <Link to={`/users/${user?.uid}`}>{user?.name}</Link>
-                <FiberManualRecordIcon />
-                {currentUser.uid !== user?.uid ? (
-                  channel?.scope === 'admin' ? (
-                    <PersonAddOutlinedIcon
-                      onClick={() => addMember(id, user?.uid)}
-                    />
-                  ) : (
-                    ''
-                  )
-                ) : (
-                  ''
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      <div>
+    </div>
       {isLive ? <div id="callScreen"></div> : ''}
     </div>
   )

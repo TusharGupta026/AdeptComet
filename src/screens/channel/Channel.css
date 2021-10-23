@@ -21,7 +21,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
+  padding-left: 10px;
+  padding-right: 3px;
   border-bottom: 1px solid lightgray;
 }
 
@@ -111,9 +112,8 @@
 }
 
 .channel__detailsActions {
-  padding: 30px;
+  padding:20px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
@@ -147,7 +147,7 @@
 }
 
 .channel__detailsMembers {
-  margin: 30px;
+  margin: 20px;
 }
 
 .channel__detailsMembers > .available__member {
@@ -200,7 +200,7 @@
 }
 
 .channel__detailsForm {
-  padding: 30px;
+  padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;

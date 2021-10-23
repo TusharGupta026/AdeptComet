@@ -13,7 +13,6 @@ import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import SendIcon from '@material-ui/icons/Send';
-import SearchIcon from '@material-ui/icons/Search'
 import CloseIcon from '@material-ui/icons/Close'
 import Message from '../../components/message/Message'
 import { CometChat } from '@cometchat-pro/chat'
@@ -37,7 +36,7 @@ function User() {
   const [isIncomingCall, setIsIncomingCall] = useState(false)
   const [isOutgoingCall, setIsOutgoingCall] = useState(false)
   const [isLive, setIsLive] = useState(false)
-  const [editorKey, setEditorKey] =useState(4);
+  const [editorKey, setEditorKey] =useState(4);// eslint-disable-next-line 
   const theme = useTheme();
   const [open, setOpen] =useState(false);
 
@@ -50,7 +49,7 @@ function User() {
   };
 
 
-  const drawerWidth = 295;
+  const drawerWidth = 270;
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -111,7 +110,7 @@ function User() {
 
   const classes = useStyles();
   
-  
+  // eslint-disable-next-line 
   const togglerDetail = () => {
     setToggle(!toggle)
   }
@@ -560,7 +559,7 @@ function User() {
                               Remove
                             </span>
                           </div>
-                          <form onSubmit={(e) => findUser(e)} className="channel__detailsForm">
+                          <form onSubmit={(e) => findUser(e)} className="user__detailsForm">
                             <input
                               placeholder="Search for a user"
                               onChange={(e) => setKeyword(e.target.value)}
@@ -571,7 +570,7 @@ function User() {
                             </Button>
                           </form>
                           <hr />
-                          <div className="channel__detailsMembers">
+                          <div className="user__detailsMembers">
                             <h4>Friends</h4>
                             {users.map((user) => (
                               <div
@@ -598,7 +597,7 @@ function User() {
                   </div>
                 </Drawer>
               </div>
-        </div>
+          </div>
       </div>
 
         <div id="messages-container" className="user__messages">
