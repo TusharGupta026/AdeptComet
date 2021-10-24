@@ -694,7 +694,7 @@ function Channel() {
       </div>
       <div>
     </div>
-      {isLive ? <div id="callScreen"></div> : ''}
+      {isLive ? <div style={{maxHeight:'92%',maxWidth:1200}} id="callScreen"></div> : ''}
     </div>
   )
 }

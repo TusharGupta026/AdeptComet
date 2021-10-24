@@ -232,7 +232,6 @@ function User() {
       })
   }
 
-
   const remFriend = (uid, fid) => {
     if (window.confirm('Are you sure?')) {
       const url = `https://api-us.cometchat.io/v2.0/users/${uid}/friends`
@@ -383,6 +382,7 @@ function User() {
         },
       })
     )
+
   }
 
   const acceptCall = (sessionID) => {
@@ -644,7 +644,8 @@ function User() {
         </Box>
         </div>
       </div>
-      {isLive ? <div id="callScreen"></div> : ''}
+      {isLive ? <div style={{maxHeight:'92%',maxWidth:1200}} id="callScreen"></div> : ''}
+
     </Box>
   )
 }

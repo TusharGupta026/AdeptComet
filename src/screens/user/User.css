@@ -82,6 +82,8 @@
   margin-left: 15px;
   margin-right: 10px;
   margin-top: 10px;
+  overflow: hidden;
+  z-index: 0;
 }
 
 .user__chatInput > form > input:focus {
@@ -289,21 +291,24 @@
 
 .callScreen {
   background-color: #000000c4;
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
+  width: 200vh;
+  height: 200vh;
+  position: fixed;
   z-index: 99999;
 }
 
 .callScreen__container {
   display: grid;
   place-items: center;
-  margin-top: 25vh;
-  width: 80%;
+  position: fixed;
+  left:7%;
+  top:10%;
+  margin-top:20vh;
+  width: 100%;
 }
 
 .callScreen__container > h4 {
-  margin: 30px 0;
+  margin: 20px 0;
   color: white;
 }
 
@@ -311,18 +316,20 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  width: 35%;
-  margin-top: 30px;
+  width: 15%;
 }
+
 
 .callScreen__btns > button {
   border-radius: 50%;
   min-height: 40px;
   min-width: 40px;
+  margin-bottom: 40px;
 }
 
 .callScreen__btns > button:first-child {
   background-color: green;
+  margin-left: 10px;
 }
 
 .callScreen__btns > button:last-child {

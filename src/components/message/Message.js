@@ -30,7 +30,7 @@ function Message({ uid, name, avatar, message, timestamp }) {
           <div className="message__details">
             <Link to={`/users/${uid}`}>{name}</Link>
             <small>
-              <Moment unix date={timestamp} format="YYYY-MM-D hh:mm A" />
+              <Moment unix date={timestamp} format="YY-MM-D H:mm " />
             </small>
           </div>
           <div className="message__text">{parse(message)}</div>

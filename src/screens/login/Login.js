@@ -5,9 +5,8 @@ import { NavLink } from 'react-router-dom';
 import { auth, provider } from '../../firebase'
 import { CometChat } from '@cometchat-pro/chat'
 import { cometChat } from '../../app.config'
-import IntroImg from '../../imgs/whatisslackx.png';
+import IntroImg from '../../imgs/whatisslackx.jpeg';
 import SlackLogoWhite from "../../imgs/slack_logo_white.png";
-import MaterialIcon from 'react-google-material-icons'
 import { useState } from 'react'
 
 function Login() {
