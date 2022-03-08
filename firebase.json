@@ -1,7 +1,6 @@
 {
   "hosting": {
-    "site": "adeptapp",
-    "public": "./build",
+    "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -9,8 +8,8 @@
     ],
     "rewrites": [
       {
-        "source": "**",
-        "destination": "/index.html"
+          "source": "**",
+          "destination": "/index.html"
       }
     ]
   }

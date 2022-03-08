@@ -1,18 +1,17 @@
 const firebaseConfig = {
-  apiKey: "AIzaSyAXWTdNefM2SjR7Bo2I4zharZgF1-cW5_4",
-  authDomain: "slack-clone-936b3.firebaseapp.com",
-  databaseURL: "https://slack-clone-936b3-default-rtdb.firebaseio.com",
-  projectId: "slack-clone-936b3",
-  storageBucket: "slack-clone-936b3.appspot.com",
-  messagingSenderId: "470822886370",
-  appId: "1:470822886370:web:7edf3b2d9c8d6b7247b7bb",
-  measurementId: "G-MSRPS2SVDG"
+  apiKey: "AIzaSyA5VCW65mzHemuGYjtfucMqFY8dLvAePrU",
+  authDomain: "adept-app.firebaseapp.com",
+  projectId: "adept-app",
+  storageBucket: "adept-app.appspot.com",
+  messagingSenderId: "339493482580",
+  appId: "1:339493482580:web:75f75317ab1e44a096fdc1",
+  measurementId: "${config.measurementId}"
 }
 
 const cometChat = {
-  APP_ID: '195941b61852b3b0',
-  AUTH_KEY: 'a367e1365df324c282b8489e62238974ee2160be',
-  REST_KEY: '3d2e7555cfa5ecc822da4ce4c3ccbd3760d978c8',
+  APP_ID: '201693ca69648259',
+  AUTH_KEY: '49414d5cee702f6ea2f65ecd367a1f110e357852',
+  REST_KEY: '9851baec6e263a5e30d5f8fc7fe6e9a0701d4e75',
   APP_REGION: 'us',
 }
 

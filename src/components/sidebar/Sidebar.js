@@ -29,9 +29,7 @@ import Header from '../Header/Header'
 function Sidebar(props) {
 
   const [open, setOpen] = React.useState(true);
-
   const drawerWidth = 260;
-
   const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
@@ -64,7 +62,6 @@ function Sidebar(props) {
       padding: theme.spacing(3),
     },
   }));
-
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -73,8 +70,6 @@ function Sidebar(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-
 
   const container = window !== undefined ? () => window().document.body : undefined;
 
@@ -106,7 +101,6 @@ function Sidebar(props) {
         console.log('User list fetching failed with error:', error)
       })
   }
-
 
 
   const getChannels = () => {
@@ -224,11 +218,11 @@ function Sidebar(props) {
   return (
     <div className={classes.root}>
     <AppBar position="fixed" className={classes.appBar}>
-      <Toolbar  style={{paddingRight:0,minHeight:0,paddingLeft:0,backgroundColor:'#49274b'}}>
+      <Toolbar  style={{paddingRight:0,minHeight:0,paddingLeft:0,backgroundColor:'#030336'}}>
         <IconButton
           color="inherit"
           aria-label="open drawer"
-          style={{marginRight:0,padding:10,borderRadius:25,backgroundColor:"#49274b"}}
+          style={{marginRight:0,padding:10,borderRadius:25,backgroundColor:'#030336'}}
           onClick={handleDrawerToggle}
           className={classes.menuButton}
         >

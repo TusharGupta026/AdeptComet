@@ -5,7 +5,7 @@ import { CometChat } from '@cometchat-pro/chat'
 
 function Add() {
   const [channel, setChannel] = useState('')
-  const [privacy, setPrivacy] = useState('')
+  const [privacy,setPrivacy]=useState('')
   const [loading, setLoading] = useState(false)
 
   const addChannel = () => {
