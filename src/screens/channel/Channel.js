@@ -840,9 +840,6 @@ function Channel() {
                         },
 
                         setup: function (editor) {
-                          editor.ui.registry.addButton('image',{
-
-                          });
                          
                           editor.ui.registry.addToggleButton('gif', {
                             text: 'GIF',
