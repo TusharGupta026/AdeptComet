@@ -1,5 +1,5 @@
 import './Channel.css'
-import { useState, useEffect} from 'react'
+import { useState, useEffect, useRef} from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
 import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined'
@@ -80,6 +80,7 @@ function Channel() {
   const [open, setOpen] =useState(false);
   const [openGif, setGifOpen] =useState(false);
   const [modalGif, setModalGif] = useState();
+  const editorRef = useRef(null);
   
   const handleGifClickOpen = () => {
     setGifOpen(true);
@@ -492,29 +493,17 @@ function Channel() {
           let username = user.name.split(' ').join('_');
           
           // Append the username to the board_url
-          let board_url = response + '&username=' + username;
-          let metadata;
-          console.log(board_url);
-          if (metadata != null) {
-            var injectedObject = metadata["@injected"];
-            if (injectedObject != null && injectedObject.hasOwnProperty("extensions")) {
-              var extensionsObject = injectedObject["extensions"];
-              if (
-                extensionsObject != null &&
-                extensionsObject.hasOwnProperty("whiteboard")
-              ) {
-                var whiteboardObject = extensionsObject["whiteboard"];
-                board_url = whiteboardObject["board_url"];
-              }
-            }
-          }
+         let board_url = response + '&username=' + username;
+         return board_url;
         },
         error => {
           console.log("error getting details:", { error });
         }
       );
+      
     
-    }).catch(error => {
+    })
+    .catch(error => {
       // Some error occured
     });
 
@@ -528,7 +517,7 @@ function Channel() {
     initiateBoard(id)
     listenForMessage(id)
     listenForCall(id)
-
+    initiateBoard(id)
     setCurrentUser(JSON.parse(localStorage.getItem('user')))
     // eslint-disable-next-line
   }, [id])
@@ -800,7 +789,7 @@ function Channel() {
           <div className="channel__chatInput">
             <Box component="form">
             <Box width={{xs:350,sm:400,md:1000,lg:1000,xl:1000}}>
-                <Editor key={editorKey}
+                <Editor  onInit={(evt, editor) => editorRef.current = editor}  key={editorKey}
                       apiKey="ayidc0ao36vpduw8cvevrpurygt76f8gmwv4sdcw5keq875y"
                     init={{
                       height: 120,
@@ -809,17 +798,51 @@ function Channel() {
                       menubar: false,
                       resize: false,
                       plugins: [
-                        'advlist autolink lists link emoticons image', 
-                        'charmap print preview anchor help ',
+                        'advlist autolink lists link emoticons image imagetools', 
+                        'charmap print preview anchor help media ',
                         'searchreplace visualblocks code',
                         'insertdatetime media table paste wordcount'
                       ],
                       toolbar:// eslint-disable-next-line
                         'undo redo | bold italic emoticons| \
                         alignleft aligncenter alignright | \
-                        bullist numlist|gif assignment| help',
+                        bullist numlist|image gif urldialog| help',
                         
+                        image_title: true,
+
+                        automatic_uploads: true,
+
+                        file_picker_types: 'image file media',
+
+                        file_picker_callback: function (cb, value, meta) {
+                          var input = document.createElement('input');
+                          input.setAttribute('type', 'file');
+                          input.setAttribute('accept', 'image/*');
+
+                          input.onchange = function () {
+                            var file = this.files[0];
+
+                            var reader = new FileReader();
+                            reader.onload = function () {
+                              
+                              var id = 'blobid' + (new Date()).getTime();
+                              var blobCache =  window.tinymce.activeEditor.editorUpload.blobCache;
+                              var base64 = reader.result.split(',')[1];
+                              var blobInfo = blobCache.create(id, file, base64);
+                              blobCache.add(blobInfo);
+
+                              cb(blobInfo.blobUri(), { title: file.name });
+                            };
+                            reader.readAsDataURL(file);
+                          };
+
+                          input.click();
+                        },
+
                         setup: function (editor) {
+                          editor.ui.registry.addButton('image',{
+
+                          });
                          
                           editor.ui.registry.addToggleButton('gif', {
                             text: 'GIF',
@@ -829,14 +852,17 @@ function Channel() {
                             
                             }
                           });
-
-                          editor.ui.registry.addToggleButton('assignment', {
-                            text: 'Collaborative Document',
+                          editor.ui.registry.addButton('urldialog', {
+                            text: 'Google Docs',
                             onAction: function () {
-                            
-                              editor.insertContent("Collaborative Document Link");
+                              editor.windowManager.openUrl({
+                                title: 'Collaborative Document',
+                                url: 'https://docs.google.com/document/d/1wgxz_SuNJ2rl-7dLFv6HIB9EfQwxgeCVuBUESmEBuLc/edit',
+                                height: 680,
+                                width: 1340
+                              });
                             }
-                          });
+                          })
                         }
                     }}
                     onChange={(e) => setMessage(e.target.getContent())}
