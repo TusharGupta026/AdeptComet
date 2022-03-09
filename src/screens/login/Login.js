@@ -6,7 +6,7 @@ import { auth, provider } from '../../firebase'
 import { CometChat } from '@cometchat-pro/chat'
 import { cometChat } from '../../app.config'
 import IntroImg from '../../imgs/whatisslackx.jpeg';
-import SlackLogoWhite from "../../imgs/slack_logo_white.png";
+import SlackLogoWhite from "../../imgs/slack_logo_black.png";
 import { useState } from 'react'
 
 function Login() {

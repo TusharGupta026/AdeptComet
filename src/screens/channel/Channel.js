@@ -20,6 +20,43 @@ import { CometChat} from '@cometchat-pro/chat'
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Avatar, Button } from '@material-ui/core'
 import { Editor } from '@tinymce/tinymce-react';
+import { GiphyFetch } from "@giphy/js-fetch-api";
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Dialog from '@material-ui/core/Dialog';
+import {
+  Gif,
+  Grid,
+} from "@giphy/react-components";
+import ResizeObserver from "react-resize-observer";
+
+
+const giphyFetch = new GiphyFetch("Qx3DgxdLNWo3hjOk9ukKz4Ydg7BmI5NG");
+
+function GridDemo({ onGifClick }) {
+  const fetchGifs = (offset) =>
+    giphyFetch.trending({ offset, limit: 10 });
+  const [width, setWidth] = useState(window.innerWidth);
+  return (
+    <>
+      <Grid
+        onGifClick={onGifClick}
+        fetchGifs={fetchGifs}
+        width={width}
+        columns={3}
+        gutter={6}
+      />
+      <ResizeObserver
+        onResize={({ width }) => {
+          setWidth(width);
+        }}
+      />
+    </>
+  );
+}
+
 
 function Channel() {
   const { id } = useParams()
@@ -41,6 +78,17 @@ function Channel() {
   const [editorKey, setEditorKey] =useState(4);// eslint-disable-next-line 
   const theme = useTheme();
   const [open, setOpen] =useState(false);
+  const [openGif, setGifOpen] =useState(false);
+  const [modalGif, setModalGif] = useState();
+  
+  const handleGifClickOpen = () => {
+    setGifOpen(true);
+  };
+  
+  const handleGifClose = () => {
+    setGifOpen(false);
+  };
+
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -431,10 +479,53 @@ function Channel() {
     }
   }
 
+  const initiateBoard = (GUID)=>{
+    CometChat.callExtension("whiteboard", "POST", "v1/create", { 
+      "receiver": GUID,
+      "receiverType": "group"
+    }).then(response => {
+      // Response with board_url
+      console.log(response);
+      CometChat.getLoggedinUser().then(
+        user => {
+          // Replace spaces with underscore
+          let username = user.name.split(' ').join('_');
+          
+          // Append the username to the board_url
+          let board_url = response + '&username=' + username;
+          let metadata;
+          console.log(board_url);
+          if (metadata != null) {
+            var injectedObject = metadata["@injected"];
+            if (injectedObject != null && injectedObject.hasOwnProperty("extensions")) {
+              var extensionsObject = injectedObject["extensions"];
+              if (
+                extensionsObject != null &&
+                extensionsObject.hasOwnProperty("whiteboard")
+              ) {
+                var whiteboardObject = extensionsObject["whiteboard"];
+                board_url = whiteboardObject["board_url"];
+              }
+            }
+          }
+        },
+        error => {
+          console.log("error getting details:", { error });
+        }
+      );
+    
+    }).catch(error => {
+      // Some error occured
+    });
+
+  }
+
+
   useEffect(() => {
     getChannel(id)
     getMessages(id)
     getMembers(id)
+    initiateBoard(id)
     listenForMessage(id)
     listenForCall(id)
 
@@ -495,6 +586,52 @@ function Channel() {
           </div>
           <div className="channel__headerRight" >
             <div style={{marginTop:10}}>
+  
+                <Dialog open={openGif} onClose={handleGifClose}>
+                  <DialogTitle>
+                    Giphy
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText>
+                    <>
+                      <GridDemo
+                        onGifClick={(gif, e) => {
+                          console.log("gif", gif);
+                          e.preventDefault();
+                          setModalGif(gif);
+                        }}
+                      />
+                      {modalGif && (
+                        <div
+                          style={{
+                            position: "fixed",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            background: "rgba(0, 0, 0, .8)"
+                          }}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setModalGif(undefined);
+                          }}
+                        >
+                          <Gif gif={modalGif} width={200} />
+                        </div>
+                      )} 
+                    </>
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleGifClose} color="primary">
+                    Cancel
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+     
             <IconButton color="inherit"
                 style={{width:22,height:22,paddingBottom:22}} >
                   <CallIcon style={{width:22,height:22}} onClick={initiateCall} />
@@ -665,7 +802,6 @@ function Channel() {
             <Box width={{xs:350,sm:400,md:1000,lg:1000,xl:1000}}>
                 <Editor key={editorKey}
                       apiKey="ayidc0ao36vpduw8cvevrpurygt76f8gmwv4sdcw5keq875y"
-                      
                     init={{
                       height: 120,
                       placeholder:`Send Message to Channel`,
@@ -674,14 +810,34 @@ function Channel() {
                       resize: false,
                       plugins: [
                         'advlist autolink lists link emoticons image', 
-                        'charmap print preview anchor help',
+                        'charmap print preview anchor help ',
                         'searchreplace visualblocks code',
                         'insertdatetime media table paste wordcount'
                       ],
                       toolbar:// eslint-disable-next-line
                         'undo redo | bold italic emoticons| \
                         alignleft aligncenter alignright | \
-                        bullist numlist| help'
+                        bullist numlist|gif assignment| help',
+                        
+                        setup: function (editor) {
+                         
+                          editor.ui.registry.addToggleButton('gif', {
+                            text: 'GIF',
+                            onAction: function () {
+                             
+                             editor.windowManager.open(handleGifClickOpen());
+                            
+                            }
+                          });
+
+                          editor.ui.registry.addToggleButton('assignment', {
+                            text: 'Collaborative Document',
+                            onAction: function () {
+                            
+                              editor.insertContent("Collaborative Document Link");
+                            }
+                          });
+                        }
                     }}
                     onChange={(e) => setMessage(e.target.getContent())}
                   />
