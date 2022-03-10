@@ -27,13 +27,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Dialog from '@material-ui/core/Dialog';
 import {
-  Gif,
   Grid,
+  Gif
 } from "@giphy/react-components";
 import ResizeObserver from "react-resize-observer";
 
-
 const giphyFetch = new GiphyFetch("Qx3DgxdLNWo3hjOk9ukKz4Ydg7BmI5NG");
+
 
 function GridDemo({ onGifClick }) {
   const fetchGifs = (offset) =>
@@ -81,9 +81,12 @@ function Channel() {
   const [openGif, setGifOpen] =useState(false);
   const [modalGif, setModalGif] = useState();
   const editorRef = useRef(null);
+
+
   
   const handleGifClickOpen = () => {
     setGifOpen(true);
+    
   };
   
   const handleGifClose = () => {
@@ -480,33 +483,10 @@ function Channel() {
     }
   }
 
-  const initiateBoard = (GUID)=>{
-    CometChat.callExtension("whiteboard", "POST", "v1/create", { 
-      "receiver": GUID,
-      "receiverType": "group"
-    }).then(response => {
-      // Response with board_url
-      console.log(response);
-      CometChat.getLoggedinUser().then(
-        user => {
-          // Replace spaces with underscore
-          let username = user.name.split(' ').join('_');
-          
-          // Append the username to the board_url
-         let board_url = response + '&username=' + username;
-         return board_url;
-        },
-        error => {
-          console.log("error getting details:", { error });
-        }
-      );
-      
-    
-    })
-    .catch(error => {
-      // Some error occured
-    });
-
+  const onGifSubmit = (e) => {
+    e.preventDefault()
+    sendMessage(id, message)
+    handleGifClose() 
   }
 
 
@@ -514,10 +494,8 @@ function Channel() {
     getChannel(id)
     getMessages(id)
     getMembers(id)
-    initiateBoard(id)
     listenForMessage(id)
     listenForCall(id)
-    initiateBoard(id)
     setCurrentUser(JSON.parse(localStorage.getItem('user')))
     // eslint-disable-next-line
   }, [id])
@@ -587,36 +565,41 @@ function Channel() {
                         onGifClick={(gif, e) => {
                           console.log("gif", gif);
                           e.preventDefault();
+                          setMessage(`<iframe src=${gif.embed_url}  width="280" height="280">`);
                           setModalGif(gif);
                         }}
                       />
-                      {modalGif && (
-                        <div
-                          style={{
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            background: "rgba(0, 0, 0, .8)"
-                          }}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setModalGif(undefined);
-                          }}
-                        >
-                          <Gif gif={modalGif} width={200} />
-                        </div>
-                      )} 
+                          {modalGif && (
+                            <div
+                              style={{
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                background: "rgba(0, 0, 0, .85)"
+                              }}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setModalGif(undefined);
+                              }}
+                            >
+                              <Gif gif={modalGif} width={200} />
+                            </div>
+                          )}
                     </>
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions>
-                    <Button onClick={handleGifClose} color="primary">
+                    <Button onClick={handleGifClose} variant="contained" color="secondary">
                     Cancel
+                    </Button>
+                    <Button onClick={
+                      (e)=>onGifSubmit(e)} variant="contained" color="primary">
+                    Send
                     </Button>
                   </DialogActions>
                 </Dialog>
@@ -804,7 +787,7 @@ function Channel() {
                         'insertdatetime media table paste wordcount'
                       ],
                       toolbar:// eslint-disable-next-line
-                        'undo redo | bold italic emoticons| \
+                        'undo redo | bold italic emoticons | \
                         alignleft aligncenter alignright | \
                         bullist numlist|image gif urldialog| help',
                         
@@ -841,19 +824,18 @@ function Channel() {
 
                         setup: function (editor) {
                          
-                          editor.ui.registry.addToggleButton('gif', {
+                          editor.ui.registry.addButton('gif', {
                             text: 'GIF',
                             onAction: function () {
-                             
-                             editor.windowManager.open(handleGifClickOpen());
-                            
+                              editor.windowManager.open(handleGifClickOpen());
                             }
                           });
+                      
                           editor.ui.registry.addButton('urldialog', {
                             text: 'Google Docs',
                             onAction: function () {
                               editor.windowManager.openUrl({
-                                title: 'Collaborative Document',
+                                title: 'Google Docs',
                                 url: 'https://docs.google.com/document/d/1wgxz_SuNJ2rl-7dLFv6HIB9EfQwxgeCVuBUESmEBuLc/edit',
                                 height: 680,
                                 width: 1340
